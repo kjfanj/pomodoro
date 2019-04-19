@@ -1,0 +1,9 @@
+schema for pomodoro session
+
+objective, required
+timer, required
+completed, required
+rating, required
+notes, optional
+date, auto
+
