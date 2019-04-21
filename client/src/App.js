@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Overall from './components/header/AppBar';
+import Overall from './components/layouts/Overall';
 
 class App extends Component {
   render() {

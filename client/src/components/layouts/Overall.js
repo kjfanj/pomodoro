@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // custom componenets
 import AppBar from '../header/AppBar';
 import Main from '../main/Main';
 
-class Overall extends Component {
+class Overall extends React.Component {
   render() {
     return (
       <div>
-        <header>
-          <AppBar />
-        </header>
-        <main>
-          <Main />
-        </main>
+        <AppBar />
+        <Main />
+
       </div>
     )
   }
