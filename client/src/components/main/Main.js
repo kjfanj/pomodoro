@@ -51,7 +51,7 @@ class Main extends React.Component {
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
-              Main
+
             </Typography>
             <Pomodoro />
           </Paper>
