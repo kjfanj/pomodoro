@@ -18,6 +18,8 @@ const styles = theme => ({
 
 });
 
+const poo = (<div>poo</div>);
+
 
 class Pomodoro extends React.Component {
 
@@ -77,14 +79,26 @@ class Pomodoro extends React.Component {
   };
 
 
+
   render() {
     const { classes } = this.props;
 
-    return (
-      <React.Fragment>
+    // example of storing jsx in a var
+    // const items = this.state.toDoList.map(e => {
+    //   return (
+    //     <li>{e}</li>
+    //   )
+    const test = (<p>poo</p>);
 
+    return (
+      // example of using it
+      //   <ul>
+      //   {items}
+      // </ul>
+      <React.Fragment>
         {/* overall */}
         < Grid className={classes.root} container spacing={24} align="center" >
+          {test}
           {/* Label */}
           < Typography variant="h6" gutterBottom align="center" >
             TIMER
