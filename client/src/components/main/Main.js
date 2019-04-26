@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import Pomodoro from './mainComp/Pomodoro';
-// import PaymentForm from './PaymentForm';
-// import Review from './Review';
 
 const styles = theme => ({
   layout: {
@@ -50,9 +47,6 @@ class Main extends React.Component {
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <Typography component="h1" variant="h4" align="center">
-
-            </Typography>
             <Pomodoro />
           </Paper>
         </main>

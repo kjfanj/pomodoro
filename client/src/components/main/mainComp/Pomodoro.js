@@ -5,13 +5,23 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+
 
 });
 
@@ -21,37 +31,96 @@ class Pomodoro extends React.Component {
     super(props);
     this.state = {
       timeRemaining: 1500,
+      chooseTime: "",
+      timerStarted: false,
       // using
       hour: "00",
-      minute: "00",
+      minute: "25",
       second: "00",
-      timerStartedBtn: false,
-
     };
     // for timer function
-    this.timer = null;
+    var countDownTimer = null;
   }
 
-  componentDidMount() {
-
+  // return the remaining time in an object with min:sec to display
+  convRemTimeToDisplay = (remTimeInSecond) => {
+    let curMin = Math.floor(remTimeInSecond / 60);
+    let curSec = remTimeInSecond % 60;
+    if (curMin < 10) {
+      curMin = "0" + curMin.toString()
+    }
+    if (curSec < 10) {
+      curSec = "0" + curSec.toString()
+    }
+    console.log(`${curMin} : ${curSec}`)
+    return { curMin, curSec }
   }
-  componentWillUpdate(nextProps, nextState) {
 
+  // return the selected time in minutes and return in second
+  convSelTimeToRemTime = (selTime) => {
+    return selTime * 60;
   }
-
-  componentWillUnmount() {
-
-  }
-  componentDidUpdate = (prevProps, prevState) => {
-
-  };
 
   // button
   handleStartBtn = () => {
     this.setState({
-      timerStartedBtn: !this.state.timerStartedBtn
+      timerStarted: !this.state.timerStarted
     })
+    if (!this.state.timerStarted) {
+      this.countDownTimer = setInterval(this.countDown, 1000)
+    }
+    if (this.state.timerStarted) {
+      console.log("clearing interval")
+      clearInterval(this.countDownTimer)
+    }
   }
+
+  handleResetBtn = () => {
+    this.setState({
+      timeRemaining: 1500,
+      timerStarted: false,
+      // using
+      hour: "00",
+      minute: "25",
+      second: "00",
+    })
+    if (this.countDownTimer) {
+      clearInterval(this.countDownTimer)
+    }
+  }
+
+  countDown = () => {
+
+    console.log("countdown running")
+    console.log(this.state.timeRemaining)
+    let displayRemTime = this.convRemTimeToDisplay(this.state.timeRemaining);
+
+    if (this.state.timeRemaining >= 0) {
+      this.setState({
+        timeRemaining: this.state.timeRemaining - 1,
+        minute: displayRemTime.curMin,
+        second: displayRemTime.curSec
+      })
+
+    }
+  }
+
+  handleChange = event => {
+    this.handleResetBtn()
+    if (event.target.name === 'chooseTime') {
+      let remTime = this.convSelTimeToRemTime(event.target.value);
+      let displayRemTime = this.convRemTimeToDisplay(remTime);
+      console.log(remTime)
+      this.setState({
+        timeRemaining: remTime,
+        minute: displayRemTime.curMin,
+        second: displayRemTime.curSec
+      })
+    }
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
 
 
   render() {
@@ -61,17 +130,15 @@ class Pomodoro extends React.Component {
         {/* ROOT - overall */}
         < Grid className={classes.root} container spacing={24} align="center" >
           {/* CHILD - Label */}
-          < Typography variant="h6" gutterBottom align="center" >
+          < Typography variant="h6" gutterBottom align="center"  >
             TIMER
           </Typography >
           {/* CHILD - time display */}
-          < Grid container spacing={24} >
-            <Grid item xs={12} >
-              < Typography variant="h1" gutterBottom align="center" >
-                {this.state.hour}:{this.state.minute}:{this.state.second}
-              </Typography >
-            </Grid>
-          </Grid >
+          <Grid item xs={12} >
+            < Typography variant="h2" gutterBottom align="center" >
+              {this.state.hour}:{this.state.minute}:{this.state.second}
+            </Typography >
+          </Grid>
           {/* CHILD - start/pause reset buttons area */}
           < Grid container spacing={24} >
             {/* filler */}
@@ -80,30 +147,56 @@ class Pomodoro extends React.Component {
             {/* start pause button */}
             <Grid item xs={3} >
               <Button variant="contained" color="primary" onClick={this.handleStartBtn}>
-                {this.state.timerStartedBtn ? "Pause" : "Start"}
+                {this.state.timerStarted ? "Pause" : "Start"}
               </Button>
             </Grid>
             {/* reset button */}
             <Grid item xs={3} >
-              <Button variant="contained" color="primary" >
+              <Button variant="contained" color="primary" onClick={this.handleResetBtn}>
                 Reset
               </Button>
             </Grid>
             {/* filler */}
             <Grid item xs={3} >
             </Grid>
-          </Grid >
+          </Grid>
           {/* CHILD - objective field */}
-          < Grid container spacing={24} >
-            <Grid item xs={12}>
-              <TextField
-                required
-                name="objective"
-                label="Objective"
-                fullWidth
-              />
-            </Grid>
-          </Grid >
+          <Grid item xs={12}>
+            <TextField
+              name="objective"
+              label="Objective"
+              autoFocus
+              rowsMax={2}
+              style={{ width: "70%" }}
+              multiline
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              name="note"
+              placeholder="note"
+              multiline
+              fullWidth
+              rowsMax={5}
+            />
+          </Grid>
+
+          {/* CHILD - time selector */}
+          <Grid item xs={12} >
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="show-default">Select Time Here</InputLabel>
+              <Select
+                value={this.state.chooseTime}
+                onChange={this.handleChange}
+                input={<Input name="chooseTime" />}
+              >
+                <MenuItem value={5}>5 min</MenuItem>
+                <MenuItem value={25}>25 min</MenuItem>
+              </Select>
+              <FormHelperText>More features coming soon!</FormHelperText>
+            </FormControl>
+          </Grid>
         </Grid >
       </React.Fragment >
     );

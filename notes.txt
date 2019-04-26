@@ -7,6 +7,14 @@ rating, required
 notes, optional
 date, auto
 
+to show on display page
+objective required
+timer required
+
+to show after timer ends
+completed
+rating
+notes
 
 
 
