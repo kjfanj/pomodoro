@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const task = require('./routes/api/tasks');
 const app = express();
-
+const path = require('path');
 // Body-parser Middleware
 app.use(bodyParser.json())
 
@@ -17,6 +17,15 @@ mongoose.connect(dbURI, { useNewUrlParser: true })
 
 // use routes
 app.use('/api/tasks', task);
+
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
