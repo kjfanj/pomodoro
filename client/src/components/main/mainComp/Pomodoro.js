@@ -11,6 +11,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+
+
+// imports for redux
+import { connect } from 'react-redux'
+import { addTask } from '../../../actions/taskAction'
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -33,14 +39,21 @@ class Pomodoro extends React.Component {
       timeRemaining: 1500,
       chooseTime: "",
       timerStarted: false,
-      // using
       hour: "00",
-      minute: "25",
+      minute: "00",
       second: "00",
+
     };
-    // for timer function
-    var countDownTimer = null;
   }
+
+  componentDidMount() {
+    let displayRemTime = this.convRemTimeToDisplay(this.state.timeRemaining)
+    this.setState({
+      minute: displayRemTime.curMin,
+      second: displayRemTime.curSec,
+    })
+  }
+
 
   // return the remaining time in an object with min:sec to display
   convRemTimeToDisplay = (remTimeInSecond) => {
@@ -52,7 +65,7 @@ class Pomodoro extends React.Component {
     if (curSec < 10) {
       curSec = "0" + curSec.toString()
     }
-    console.log(`${curMin} : ${curSec}`)
+    // console.log(`${curMin} : ${curSec}`)
     return { curMin, curSec }
   }
 
@@ -70,7 +83,7 @@ class Pomodoro extends React.Component {
       this.countDownTimer = setInterval(this.countDown, 1000)
     }
     if (this.state.timerStarted) {
-      console.log("clearing interval")
+      // console.log("clearing interval")
       clearInterval(this.countDownTimer)
     }
   }
@@ -91,8 +104,8 @@ class Pomodoro extends React.Component {
 
   countDown = () => {
 
-    console.log("countdown running")
-    console.log(this.state.timeRemaining)
+    // console.log("countdown running")
+    // console.log(this.state.timeRemaining)
     let displayRemTime = this.convRemTimeToDisplay(this.state.timeRemaining);
 
     if (this.state.timeRemaining >= 0) {
@@ -121,6 +134,17 @@ class Pomodoro extends React.Component {
       [event.target.name]: event.target.value,
     });
   };
+
+  handleTest = () => {
+    const testObj = {
+      objective: "from test",
+      timer: "25",
+      completed: true,
+      rating: 10,
+      notes: "work"
+    }
+    this.props.onAddTask(testObj)
+  }
 
 
   render() {
@@ -191,12 +215,17 @@ class Pomodoro extends React.Component {
                 onChange={this.handleChange}
                 input={<Input name="chooseTime" />}
               >
+                <MenuItem value={1}>1 min</MenuItem>
                 <MenuItem value={5}>5 min</MenuItem>
                 <MenuItem value={25}>25 min</MenuItem>
               </Select>
               <FormHelperText>More features coming soon!</FormHelperText>
             </FormControl>
           </Grid>
+
+          <Button variant="contained" color="primary" onClick={this.handleTest}>
+            TEST BTN
+              </Button>
         </Grid >
       </React.Fragment >
     );
@@ -207,4 +236,19 @@ Pomodoro.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Pomodoro);
+
+const mapStateToProps = state => ({
+  product: state.product,
+  user: state.user
+});
+
+
+// user onUpdateUser to prevent var collision when destructuring
+const mapActionsToProps = {
+  onAddTask: addTask,
+}
+
+
+// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Pomodoro));
+
