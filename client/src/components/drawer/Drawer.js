@@ -9,7 +9,9 @@ import TimerIcon from '@material-ui/icons/Timer';
 import HistoryIcon from '@material-ui/icons/History';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-
+// for redux
+import { switchMain } from '../../actions/uiAction';
+import { connect } from 'react-redux';
 
 class TemporaryDrawer extends React.Component {
 
@@ -17,16 +19,16 @@ class TemporaryDrawer extends React.Component {
   handleListClick = (e) => {
     switch (e) {
       case 'Timer':
-        console.log("go to timer main")
+        this.props.onSwitchMain('Timer')
         break;
       case 'History':
-        console.log("go to history main")
+        this.props.onSwitchMain('History')
         break;
       case 'Settings':
-        console.log("go to settings main")
+        this.props.onSwitchMain('Settings')
         break;
       default:
-        return
+        return;
     }
   }
 
@@ -76,6 +78,15 @@ class TemporaryDrawer extends React.Component {
     );
   }
 }
+// pick the ui reducer from store so ui state is accesable
+const mapStateToProps = state => ({
+});
 
+// user onUpdateUser to prevent var collision when destructuring
+const mapActionsToProps = {
+  onSwitchMain: switchMain,
+}
 
-export default TemporaryDrawer;
+// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(TemporaryDrawer);
+

@@ -1,3 +1,11 @@
 import axios from 'axios';
-import { GET_COMPLETED_TASKS, UI_COMPLETED_TASKS } from './types';
+import { SWITCH_MAIN } from './types';
+
+
+export const switchMain = whichMain => (dispatch) => {
+  dispatch({
+    type: SWITCH_MAIN,
+    payload: whichMain
+  })
+}
 

@@ -4,6 +4,11 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Pomodoro from './mainComp/Pomodoro';
+import HistoryMain from './mainComp/History';
+import SettingsMain from './mainComp/Settings';
+import { connect } from 'react-redux';
+
+
 
 const styles = theme => ({
   layout: {
@@ -39,15 +44,26 @@ const styles = theme => ({
 
 class Main extends React.Component {
 
+
+
+  componentDidUpdate() {
+
+  }
+
   render() {
     const { classes } = this.props;
-
+    console.log(this.props)
+    const mainToRender = this.props.state.whichMain;
     return (
       <React.Fragment>
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <Pomodoro />
+
+            {mainToRender === 'Timer' && <Pomodoro />}
+            {mainToRender === 'History' && <HistoryMain />}
+            {mainToRender === 'Settings' && <SettingsMain />}
+
           </Paper>
         </main>
       </React.Fragment>
@@ -59,4 +75,15 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Main);
+// pick the ui reducer from store so ui state is accesable
+const mapStateToProps = state => ({
+  state: state.ui
+});
+
+// user onUpdateUser to prevent var collision when destructuring
+const mapActionsToProps = {
+}
+
+// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Main));
+

@@ -14,8 +14,8 @@ import Select from '@material-ui/core/Select';
 
 
 // imports for redux
-import { connect } from 'react-redux'
-import { addTask } from '../../../actions/taskAction'
+import { connect } from 'react-redux';
+import { addTask } from '../../../actions/taskAction';
 
 const styles = theme => ({
   root: {
@@ -95,7 +95,7 @@ class Pomodoro extends React.Component {
       hour: "00",
       minute: "25",
       second: "00",
-      
+
     })
     if (this.countDownTimer) {
       clearInterval(this.countDownTimer)
@@ -243,8 +243,8 @@ Pomodoro.propTypes = {
 
 
 const mapStateToProps = state => ({
-  product: state.product,
-  user: state.user
+  // product: state.product,
+  // user: state.user
 });
 
 

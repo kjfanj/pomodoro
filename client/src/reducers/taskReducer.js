@@ -6,12 +6,13 @@ const initialState = {
   items: {}
 };
 
-export default function (state = initialState, action) {
-  switch (action.type) {
+// with destructured action into type, payload
+export default function (state = initialState, { type, payload }) {
+  switch (type) {
     case ADD_COMPLETED_TASK:
       return {
         ...state,
-        task: action.payload,
+        task: payload,
       };
     default:
       return state;

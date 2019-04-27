@@ -1,15 +1,20 @@
 import {
-  UI_COMPLETED_TASKS
+  SWITCH_MAIN
 } from '../actions/types';
 
+// starting the app with timer then switch context based on drawer
+const initialState = {
+  whichMain: 'Timer',
 
+}
 
-export default function (state = initialState, action) {
-  switch (action.type) {
-    case ADD_COMPLETED_TASK:
+// with destructured action into type, payload
+export default function (state = initialState, { type, payload }) {
+  switch (type) {
+    case SWITCH_MAIN:
       return {
         ...state,
-        task: action.payload,
+        whichMain: payload,
       };
     default:
       return state;
