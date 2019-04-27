@@ -1,10 +1,8 @@
 import {
-  ADD_COMPLETED_TASK
+  UI_COMPLETED_TASKS
 } from '../actions/types';
 
-const initialState = {
-  items: {}
-};
+
 
 export default function (state = initialState, action) {
   switch (action.type) {

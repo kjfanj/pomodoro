@@ -9,7 +9,6 @@ export const addTask = task => (dispatch) => {
         type: ADD_COMPLETED_TASK,
         payload: res.data
       })
-      console.log("post succ")
     })
     .catch(err =>
       console.log(err)

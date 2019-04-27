@@ -42,7 +42,6 @@ class Pomodoro extends React.Component {
       hour: "00",
       minute: "00",
       second: "00",
-
     };
   }
 
@@ -96,6 +95,7 @@ class Pomodoro extends React.Component {
       hour: "00",
       minute: "25",
       second: "00",
+      
     })
     if (this.countDownTimer) {
       clearInterval(this.countDownTimer)
@@ -144,6 +144,7 @@ class Pomodoro extends React.Component {
       notes: "work"
     }
     this.props.onAddTask(testObj)
+    console.log("called addTask from pomodoro")
   }
 
 
@@ -207,21 +208,25 @@ class Pomodoro extends React.Component {
           </Grid>
 
           {/* CHILD - time selector */}
-          <Grid item xs={12} >
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="show-default">Select Time Here</InputLabel>
-              <Select
-                value={this.state.chooseTime}
-                onChange={this.handleChange}
-                input={<Input name="chooseTime" />}
-              >
-                <MenuItem value={1}>1 min</MenuItem>
-                <MenuItem value={5}>5 min</MenuItem>
-                <MenuItem value={25}>25 min</MenuItem>
-              </Select>
-              <FormHelperText>More features coming soon!</FormHelperText>
-            </FormControl>
-          </Grid>
+          {!this.state.timerStarted &&
+            <Grid item xs={12} >
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="show-default">Select Time Here</InputLabel>
+                <Select
+                  value={this.state.chooseTime}
+                  onChange={this.handleChange}
+                  input={<Input name="chooseTime" />}
+                >
+                  <MenuItem value={1}>1 min</MenuItem>
+                  <MenuItem value={5}>5 min</MenuItem>
+                  <MenuItem value={25}>25 min</MenuItem>
+                  <MenuItem value={45}>45 min</MenuItem>
+                </Select>
+                <FormHelperText>Selecting a time will restart</FormHelperText>
+              </FormControl>
+            </Grid>
+          }
+
 
           <Button variant="contained" color="primary" onClick={this.handleTest}>
             TEST BTN

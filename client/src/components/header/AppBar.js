@@ -20,9 +20,9 @@ class ButtonAppBar extends React.Component {
   }
 
   toggleDrawer = () => {
-    this.setState(prevState => ({
-      drawerOpened: !prevState.drawerOpened
-    }));
+    this.setState({
+      drawerOpened: !this.state.drawerOpened
+    });
   }
 
 
