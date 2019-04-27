@@ -230,7 +230,7 @@ class Pomodoro extends React.Component {
 
           <Button variant="contained" color="primary" onClick={this.handleTest}>
             TEST BTN
-              </Button>
+          </Button>
         </Grid >
       </React.Fragment >
     );
