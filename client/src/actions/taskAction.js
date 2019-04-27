@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_COMPLETED_TASKS, ADD_COMPLETED_TASK } from './types';
+import { ADD_COMPLETED_TASK } from './types';
 
 export const addTask = task => (dispatch) => {
   axios

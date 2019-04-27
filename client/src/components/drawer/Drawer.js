@@ -78,15 +78,13 @@ class TemporaryDrawer extends React.Component {
     );
   }
 }
-// pick the ui reducer from store so ui state is accesable
+
 const mapStateToProps = state => ({
 });
 
-// user onUpdateUser to prevent var collision when destructuring
 const mapActionsToProps = {
   onSwitchMain: switchMain,
 }
 
-// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
 export default connect(mapStateToProps, mapActionsToProps)(TemporaryDrawer);
 

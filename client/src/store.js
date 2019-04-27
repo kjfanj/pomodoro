@@ -14,6 +14,8 @@ const allReducers = combineReducers({
 const allStoreEnchancers = compose(
   applyMiddleware(thunk)
 )
+// if need redux devtool
+//,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
 
 const store = createStore(allReducers, {}, allStoreEnchancers);
 

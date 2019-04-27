@@ -44,15 +44,8 @@ const styles = theme => ({
 
 class Main extends React.Component {
 
-
-
-  componentDidUpdate() {
-
-  }
-
   render() {
     const { classes } = this.props;
-    console.log(this.props)
     const mainToRender = this.props.state.whichMain;
     return (
       <React.Fragment>
@@ -75,15 +68,12 @@ Main.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// pick the ui reducer from store so ui state is accesable
 const mapStateToProps = state => ({
   state: state.ui
 });
 
-// user onUpdateUser to prevent var collision when destructuring
 const mapActionsToProps = {
 }
 
-// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Main));
 

@@ -228,9 +228,9 @@ class Pomodoro extends React.Component {
           }
 
 
-          <Button variant="contained" color="primary" onClick={this.handleTest}>
+          {/* <Button variant="contained" color="primary" onClick={this.handleTest}>
             TEST BTN
-          </Button>
+          </Button> */}
         </Grid >
       </React.Fragment >
     );
@@ -241,19 +241,13 @@ Pomodoro.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-
 const mapStateToProps = state => ({
-  // product: state.product,
-  // user: state.user
+
 });
 
-
-// user onUpdateUser to prevent var collision when destructuring
 const mapActionsToProps = {
   onAddTask: addTask,
 }
 
-
-// export default connect(mapStateToProps, mapActionsToProps, mergeProps)(App);
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Pomodoro));
 

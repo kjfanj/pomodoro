@@ -19,7 +19,5 @@ notes
 
 
 Overall - AppBar - Drawer
-        - Main
+        - Main - holds(Pomodoro, History, Settings to display)
         
-        - Footer
-
