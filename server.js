@@ -4,13 +4,12 @@ const mongoose = require('mongoose');
 const task = require('./routes/api/tasks');
 const app = express();
 const path = require('path');
-const config = require('config');
-
+require('dotenv').config()
 // Body-parser Middleware
 app.use(bodyParser.json())
 
 // DB config
-const dbURI = config.get('mongoURI')
+const dbURI = process.env.MONGO_URI
 
 // Connect to MongoDB
 mongoose.connect(dbURI, { useNewUrlParser: true })
