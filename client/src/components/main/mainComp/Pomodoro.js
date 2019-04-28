@@ -53,6 +53,10 @@ class Pomodoro extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    clearInterval(this.countDownTimer)
+
+  }
 
   // return the remaining time in an object with min:sec to display
   convRemTimeToDisplay = (remTimeInSecond) => {
@@ -161,6 +165,7 @@ class Pomodoro extends React.Component {
           {/* CHILD - time display */}
           <Grid item xs={12} >
             < Typography variant="h2" gutterBottom align="center" >
+
               {this.state.hour}:{this.state.minute}:{this.state.second}
             </Typography >
           </Grid>

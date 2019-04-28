@@ -4,7 +4,7 @@ objective, required
 timer, required
 completed, required
 rating, required
-notes, optional
+note, optional
 date, auto
 
 to show on display page

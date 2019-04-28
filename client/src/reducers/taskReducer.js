@@ -1,9 +1,11 @@
 import {
-  ADD_COMPLETED_TASK
+  ADD_COMPLETED_TASK,
+  GET_COMPLETED_TASK
 } from '../actions/types';
 
 const initialState = {
-  items: {}
+  postTask: {},
+  displayTasks: []
 };
 
 // with destructured action into type, payload
@@ -12,9 +14,15 @@ export default function (state = initialState, { type, payload }) {
     case ADD_COMPLETED_TASK:
       return {
         ...state,
-        task: payload,
+        postTask: payload,
       };
+    case GET_COMPLETED_TASK:
+      return {
+        ...state,
+        displayTasks: payload
+      }
     default:
       return state;
   }
 }
+
