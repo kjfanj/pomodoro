@@ -1,12 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const task = require('./routes/api/tasks');
-const app = express();
 const path = require('path');
+
+// routes
+const task = require('./routes/api/tasks');
+const auth = require('./routes/auth/googleAuth');
+
+const app = express();
+
+// for env var
 require('dotenv').config()
-// Body-parser Middleware
+
 app.use(bodyParser.json())
+
 
 // DB config
 const dbURI = process.env.MONGO_URI
@@ -17,8 +24,10 @@ mongoose.connect(dbURI, { useNewUrlParser: true })
   .catch(err => { console.log(err) })
 
 // use routes
+// for task api
 app.use('/api/tasks', task);
-
+// for google auth
+app.use('/auth', auth)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

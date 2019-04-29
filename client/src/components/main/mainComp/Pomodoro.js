@@ -145,7 +145,7 @@ class Pomodoro extends React.Component {
       timer: "25",
       completed: true,
       rating: 10,
-      notes: "work"
+      note: "work"
     }
     this.props.onAddTask(testObj)
     console.log("called addTask from pomodoro")

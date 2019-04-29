@@ -6,10 +6,13 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 // custom components
 import Drawer from '../drawer/Drawer';
 
-
+// import for redux
+import { signUp } from '../../actions/uiAction'
+import { connect } from 'react-redux';
 
 class ButtonAppBar extends React.Component {
   constructor(props) {
@@ -25,6 +28,16 @@ class ButtonAppBar extends React.Component {
     });
   }
 
+  handleLogin = () => {
+    this.props.onSignUp();
+  }
+
+  responseGoogle = (response) => {
+    console.log(response);
+  }
+  logout = (res) => {
+    console.log(res)
+  }
 
   render() {
 
@@ -40,6 +53,8 @@ class ButtonAppBar extends React.Component {
         marginRight: 20,
       },
     };
+    console.log("App bar")
+    console.log(this.props)
     return (
       <div style={styles.root} >
 
@@ -51,7 +66,23 @@ class ButtonAppBar extends React.Component {
             <Typography variant="h6" color="inherit" style={styles.grow}>
               Pomodoro Timer
           </Typography>
-            <Button color="inherit" >Login</Button>
+            <Button color="inherit" onClick={this.handleLogin}>Login</Button>
+            {/* <Button color="inherit" >Login</Button> */}
+            <GoogleLogin
+              clientId="800094437769-uuub6j5c5mhtvncoimbruojin1kgm972.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
+            <GoogleLogout
+              clientId="800094437769-uuub6j5c5mhtvncoimbruojin1kgm972.apps.googleusercontent.com"
+              buttonText="Logout"
+              onLogoutSuccess={this.logout}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+            >
+            </GoogleLogout>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -62,4 +93,14 @@ class ButtonAppBar extends React.Component {
   }
 }
 
-export default ButtonAppBar;
+
+const mapStateToProps = state => ({
+  state: state
+});
+
+const mapActionsToProps = {
+  onSignUp: signUp,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ButtonAppBar);
+
