@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Pomodoro from './mainComp/Pomodoro';
 import HistoryMain from './mainComp/History';
 import SettingsMain from './mainComp/Settings';
+import AboutMain from './mainComp/About';
 import { connect } from 'react-redux';
 
 
@@ -56,6 +57,7 @@ class Main extends React.Component {
             {mainToRender === 'Timer' && <Pomodoro />}
             {mainToRender === 'History' && <HistoryMain />}
             {mainToRender === 'Settings' && <SettingsMain />}
+            {mainToRender === 'About' && <AboutMain />}
 
           </Paper>
         </main>

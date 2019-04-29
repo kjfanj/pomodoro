@@ -10,7 +10,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '../drawer/Drawer';
 import UserAuthModal from '../modals/UserAuthModal';
 // import for redux
-import { signUp } from '../../actions/uiAction'
 import { connect } from 'react-redux';
 
 class ButtonAppBar extends React.Component {
@@ -50,8 +49,8 @@ class ButtonAppBar extends React.Component {
         marginRight: 20,
       },
     };
-    console.log("App bar")
-    console.log(this.props)
+    // console.log("App bar")
+    // console.log(this.props)
     return (
       <div style={styles.root} >
 
@@ -63,7 +62,7 @@ class ButtonAppBar extends React.Component {
             <Typography variant="h6" color="inherit" style={styles.grow}>
               Pomodoro Timer
           </Typography>
-            <Button color="inherit" onClick={this.handleLogin}>Sign in</Button>
+            <Button color="inherit" onClick={this.handleLogin}>{this.props.state.ui.loggedIn ? "Account" : "Sign in"}</Button>
             {/* <Button color="inherit" >Login</Button> */}
           </Toolbar>
         </AppBar>
@@ -83,10 +82,10 @@ class ButtonAppBar extends React.Component {
 
 const mapStateToProps = state => ({
   state: state
+
 });
 
 const mapActionsToProps = {
-  onSignUp: signUp,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(ButtonAppBar);

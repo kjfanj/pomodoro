@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -23,7 +22,7 @@ const styles = theme => ({
     display: 'inline',
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`,
+    padding: `${theme.spacing.unit * 2}px 0`,
   },
   card: {
     height: '100%',
@@ -32,7 +31,7 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   cardContent: {
     flexGrow: 1,
@@ -40,20 +39,21 @@ const styles = theme => ({
 });
 class History extends React.Component {
   componentDidMount() {
-    this.props.onGetCompletedTask()
+    if (this.props.user.loggedIn) {
+      this.props.onGetCompletedTask(this.props.user.curUser.googleId)
+    }
   }
 
   render() {
     // console.log(this.props.displayTasks)
     const { classes } = this.props;
-    console.log(this.props.displayTasks)
     const completedTaskToDisplay = this.props.displayTasks.map((task, index) => (
 
       <Grid item key={task._id} sm={12} md={12} lg={12} style={{ width: '100%' }}>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             <Typography>
-              {"Task " + (index+1) + ": " + task.objective}
+              {"Task " + (index + 1) + ": " + task.objective}
             </Typography>
             <Divider />
             <Typography align="center">
@@ -66,7 +66,7 @@ class History extends React.Component {
               {task.timer + " m"}
             </Typography>
             <Typography align="center">
-              {task.date}
+              {"completion date: " + new Date(task.date)}
             </Typography>
             <Divider />
             <Typography>
@@ -80,13 +80,11 @@ class History extends React.Component {
     return (
 
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Typography variant="h2" align="center" color="textPrimary" gutterBottom>
-          Total: {this.props.displayTasks.length}
+        <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
+          {this.props.user.loggedIn ? "Total Completed: " + this.props.displayTasks.length : "Please sign in to see your history"}
         </Typography>
-        <Divider />
-
-        <Grid container spacing={40}>
-          {completedTaskToDisplay}
+        <Grid container spacing={24}>
+          {this.props.user.loggedIn ? completedTaskToDisplay : ""}
         </Grid>
       </div >
     );
@@ -96,7 +94,7 @@ class History extends React.Component {
 
 const mapStateToProps = state => ({
   displayTasks: state.task.displayTasks,
-  poo: state.task.tasks
+  user: state.ui
 });
 
 const mapActionsToProps = {

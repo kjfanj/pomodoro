@@ -27,8 +27,6 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
   },
-
-
 });
 
 class Pomodoro extends React.Component {
@@ -55,7 +53,6 @@ class Pomodoro extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.countDownTimer)
-
   }
 
   // return the remaining time in an object with min:sec to display

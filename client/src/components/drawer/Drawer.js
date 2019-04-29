@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TimerIcon from '@material-ui/icons/Timer';
 import HistoryIcon from '@material-ui/icons/History';
 import SettingsIcon from '@material-ui/icons/Settings';
-
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 // for redux
 import { switchMain } from '../../actions/uiAction';
 import { connect } from 'react-redux';
@@ -26,6 +26,9 @@ class TemporaryDrawer extends React.Component {
         break;
       case 'Settings':
         this.props.onSwitchMain('Settings')
+        break;
+      case 'About':
+        this.props.onSwitchMain('About')
         break;
       default:
         return;
@@ -52,9 +55,9 @@ class TemporaryDrawer extends React.Component {
         </List>
         <Divider />
         <List >
-          {['Settings'].map((text, index) => (
+          {['Settings', 'About'].map((text, index) => (
             <ListItem button key={text} onClick={() => { this.handleListClick(text) }}>
-              <ListItemIcon>{index % 2 === 0 ? <SettingsIcon /> : <SettingsIcon />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <SettingsIcon /> : <ContactMailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}

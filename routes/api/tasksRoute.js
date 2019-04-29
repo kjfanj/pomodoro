@@ -5,8 +5,8 @@ const Task = require('../../models/Task');
 // @route  GET api/tasks
 // @desc   GET all tasks
 // @access Public
-router.get('/', (req, res) => {
-  Task.find()
+router.get('/:googleId', (req, res) => {
+  Task.find({ googleId: req.params.googleId })
     .sort({ date: -1 })
     .then(tasks => res.json(tasks))
 })
@@ -21,7 +21,8 @@ router.post('/', (req, res) => {
     timer: req.body.timer,
     completed: req.body.completed,
     rating: req.body.rating,
-    note: req.body.note
+    note: req.body.note,
+    googleId: req.body.googleId
   });
 
   newTask.save().then(task => res.json(task));

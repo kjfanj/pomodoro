@@ -5,11 +5,13 @@ const Schema = mongoose.Schema;
 
 // Desc
 /*
-
   Schema for UserProfile
 
-  username
+  firstName
+  lastName
   googleId - what google gives me
+  email
+  name
 */
 const UserProfileSchema = new Schema({
   firstName: {
@@ -23,7 +25,15 @@ const UserProfileSchema = new Schema({
   googleId: {
     type: String,
     required: true
-  }
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
 });
 
 module.exports = UserProfile = mongoose.model('userprofile', UserProfileSchema);

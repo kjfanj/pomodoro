@@ -1,4 +1,4 @@
-import { SWITCH_MAIN, SIGN_UP } from './types';
+import { SWITCH_MAIN, SIGN_IN, SIGN_OUT } from './types';
 import axios from 'axios';
 
 
@@ -9,18 +9,25 @@ export const switchMain = whichMain => (dispatch) => {
   })
 }
 
-export const signUp = user => (dispatch) => {
-
-
+export const signIn = userId => (dispatch) => {
   axios
-    .get('/auth/google', { crossdomain: true })
+    .post('/auth/signIn', userId)
     .then(res => {
-      console.log(res)
+      // if status is OK, then the user will be added to the db
+      if (res.status === 200) {
+        dispatch({
+          type: SIGN_IN,
+          payload: userId
+        })
+      }
     })
     .catch(err => {
       console.log(err)
     })
-  // dispatch({
-  //   type: SIGN_UP,
-  // })
+}
+
+export const signOut = () => (dispatch) => {
+  dispatch({
+    type: SIGN_OUT
+  })
 }
