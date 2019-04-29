@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 // routes
-const task = require('./routes/api/tasks');
-const auth = require('./routes/auth/googleAuth');
+const taskRoute = require('./routes/api/tasksRoute');
+const authRoute = require('./routes/auth/authRoute');
 
 const app = express();
 
@@ -25,9 +25,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true })
 
 // use routes
 // for task api
-app.use('/api/tasks', task);
+app.use('/api/tasks', taskRoute);
 // for google auth
-app.use('/auth', auth)
+app.use('/auth', authRoute)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
