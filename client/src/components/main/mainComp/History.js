@@ -47,13 +47,13 @@ class History extends React.Component {
     // console.log(this.props.displayTasks)
     const { classes } = this.props;
     console.log(this.props.displayTasks)
-    const completedTaskToDisplay = this.props.displayTasks.map(task => (
+    const completedTaskToDisplay = this.props.displayTasks.map((task, index) => (
 
-      <Grid item key={task._id} sm={12} md={12} lg={12} style={{width: '100%'}}>
+      <Grid item key={task._id} sm={12} md={12} lg={12} style={{ width: '100%' }}>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             <Typography>
-              {"Task: " + task.objective}
+              {"Task " + (index+1) + ": " + task.objective}
             </Typography>
             <Divider />
             <Typography align="center">
@@ -81,8 +81,10 @@ class History extends React.Component {
 
       <div className={classNames(classes.layout, classes.cardGrid)}>
         <Typography variant="h2" align="center" color="textPrimary" gutterBottom>
-          Total Completed: {this.props.displayTasks.length}
+          Total: {this.props.displayTasks.length}
         </Typography>
+        <Divider />
+
         <Grid container spacing={40}>
           {completedTaskToDisplay}
         </Grid>

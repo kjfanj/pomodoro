@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
   Schema for pomodoro task
 
   objective - what you are trying to do
+  googleid - which user it is tied to
   timer - default 25 min
   completed - did you finish what you wanted to do
   rating - grade yourself of your performance 0-100
@@ -35,6 +36,10 @@ const TaskSchema = new Schema({
   note: {
     type: String,
     required: false
+  },
+  googleId: {
+    type: String,
+    required: true
   },
   date: {
     type: Date,

@@ -6,10 +6,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
 // custom components
 import Drawer from '../drawer/Drawer';
-
+import UserAuthModal from '../modals/UserAuthModal';
 // import for redux
 import { signUp } from '../../actions/uiAction'
 import { connect } from 'react-redux';
@@ -19,6 +18,7 @@ class ButtonAppBar extends React.Component {
     super(props)
     this.state = {
       drawerOpened: false,
+      modalOpened: false
     }
   }
 
@@ -29,15 +29,12 @@ class ButtonAppBar extends React.Component {
   }
 
   handleLogin = () => {
-    this.props.onSignUp();
+    // this.props.onSignUp();
+    this.setState({
+      modalOpened: !this.state.modalOpened
+    });
   }
 
-  responseGoogle = (response) => {
-    console.log(response);
-  }
-  logout = (res) => {
-    console.log(res)
-  }
 
   render() {
 
@@ -66,26 +63,18 @@ class ButtonAppBar extends React.Component {
             <Typography variant="h6" color="inherit" style={styles.grow}>
               Pomodoro Timer
           </Typography>
-            <Button color="inherit" onClick={this.handleLogin}>Login</Button>
+            <Button color="inherit" onClick={this.handleLogin}>Sign in</Button>
             {/* <Button color="inherit" >Login</Button> */}
-            <GoogleLogin
-              clientId="800094437769-us18thv7ukp3p6ohsh09lh0bqhjl6js3.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />
-            <GoogleLogout
-              clientId="800094437769-us18thv7ukp3p6ohsh09lh0bqhjl6js3.apps.googleusercontent.com"
-              buttonText="Logout"
-              onLogoutSuccess={this.logout}
-            >
-            </GoogleLogout>
           </Toolbar>
         </AppBar>
         <Drawer
           drawerOpened={this.state.drawerOpened}
           toggleDrawer={this.toggleDrawer} />
+        <UserAuthModal
+
+          modalOpened={this.state.modalOpened}
+          handleLogin={this.handleLogin}
+        />
       </div>
     );
   }

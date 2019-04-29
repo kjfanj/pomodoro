@@ -12,7 +12,11 @@ const Schema = mongoose.Schema;
   googleId - what google gives me
 */
 const UserProfileSchema = new Schema({
-  username: {
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
     type: String,
     required: true
   },
