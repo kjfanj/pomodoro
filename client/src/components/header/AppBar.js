@@ -69,18 +69,16 @@ class ButtonAppBar extends React.Component {
             <Button color="inherit" onClick={this.handleLogin}>Login</Button>
             {/* <Button color="inherit" >Login</Button> */}
             <GoogleLogin
-              clientId="800094437769-uuub6j5c5mhtvncoimbruojin1kgm972.apps.googleusercontent.com"
+              clientId="800094437769-us18thv7ukp3p6ohsh09lh0bqhjl6js3.apps.googleusercontent.com"
               buttonText="Login"
               onSuccess={this.responseGoogle}
               onFailure={this.responseGoogle}
               cookiePolicy={'single_host_origin'}
             />
             <GoogleLogout
-              clientId="800094437769-uuub6j5c5mhtvncoimbruojin1kgm972.apps.googleusercontent.com"
+              clientId="800094437769-us18thv7ukp3p6ohsh09lh0bqhjl6js3.apps.googleusercontent.com"
               buttonText="Logout"
               onLogoutSuccess={this.logout}
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
             >
             </GoogleLogout>
           </Toolbar>
