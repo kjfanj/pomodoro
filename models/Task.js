@@ -19,7 +19,7 @@ const Schema = mongoose.Schema;
 const TaskSchema = new Schema({
   objective: {
     type: String,
-    required: true
+    required: false
   },
   timer: {
     type: Number,

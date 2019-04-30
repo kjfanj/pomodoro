@@ -16,7 +16,6 @@ export default class About extends Component {
           This app's repository
         <Button><a href={"https://github.com/kjfanj/pomodoro"}>GITHUB</a></Button>
         </Typography>
-
       </div>
     )
   }

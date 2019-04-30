@@ -1,23 +1,35 @@
-schema for pomodoro session
+schema for pomodoro task
 
-objective, required
+objective, optional
 timer, required
 completed, required
 rating, required
 note, optional
+googleId, required
 date, auto
 
-to show on display page
-objective required
-timer required
+schema for UserProfile
 
-to show after timer ends
-completed
-rating
-notes
+firstName, required
+lastName, required
+googleId, required
+email, required
+name, required
+
+App's views overview
+App - Overall - AppBar - Drawer
+                       - UserAuthModal
+              - Main - Pomodoro, History, Settings, About
 
 
+Redux stores: ui and task
 
-Overall - AppBar - Drawer
-        - Main - holds(Pomodoro, History, Settings to display)
-        
+ui and task state
+
+ui: whichMain - showing the current main that's on screen for switching
+    loggedIn - true or false
+    curUser - stores current user's googleId
+
+task: postTask - single object to post to server
+      displayTask - stores completed task from server
+

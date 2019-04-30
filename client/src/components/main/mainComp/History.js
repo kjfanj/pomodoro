@@ -39,10 +39,16 @@ const styles = theme => ({
 });
 class History extends React.Component {
   componentDidMount() {
-    if (this.props.user.loggedIn) {
+    if (this.props.isLoggedIn) {
       this.props.onGetCompletedTask(this.props.user.curUser.googleId)
     }
   }
+  componentDidUpdate() {
+    if (this.props.isLoggedIn) {
+      this.props.onGetCompletedTask(this.props.user.curUser.googleId)
+    }
+  }
+
 
   render() {
     // console.log(this.props.displayTasks)
@@ -81,10 +87,10 @@ class History extends React.Component {
 
       <div className={classNames(classes.layout, classes.cardGrid)}>
         <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
-          {this.props.user.loggedIn ? "Total Completed: " + this.props.displayTasks.length : "Please sign in to see your history"}
+          {this.props.isLoggedIn ? "Total Completed: " + this.props.displayTasks.length : "Please sign in to see your history"}
         </Typography>
         <Grid container spacing={24}>
-          {this.props.user.loggedIn ? completedTaskToDisplay : ""}
+          {this.props.isLoggedIn ? completedTaskToDisplay : ""}
         </Grid>
       </div >
     );
@@ -94,7 +100,8 @@ class History extends React.Component {
 
 const mapStateToProps = state => ({
   displayTasks: state.task.displayTasks,
-  user: state.ui
+  user: state.ui,
+  isLoggedIn: state.ui.loggedIn
 });
 
 const mapActionsToProps = {

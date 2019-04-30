@@ -34,12 +34,20 @@ class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // for functionality
       timeRemaining: 1500,
-      chooseTime: "",
+      timeIsUp: false,
       timerStarted: false,
       hour: "00",
       minute: "00",
       second: "00",
+      // for stuff that goes to database
+      chooseTime: "",
+      chooseCompleted: true,
+      chooseRating: 100,
+      objective: "",
+      note: "",
+      showSaveBtn: false
     };
   }
 
@@ -51,8 +59,9 @@ class Pomodoro extends React.Component {
     })
   }
 
+  // stop interval from running when switching pages
   componentWillUnmount() {
-    clearInterval(this.countDownTimer)
+    clearInterval(this.countDownTimer);
   }
 
   // return the remaining time in an object with min:sec to display
@@ -60,71 +69,82 @@ class Pomodoro extends React.Component {
     let curMin = Math.floor(remTimeInSecond / 60);
     let curSec = remTimeInSecond % 60;
     if (curMin < 10) {
-      curMin = "0" + curMin.toString()
+      curMin = "0" + curMin.toString();
     }
     if (curSec < 10) {
-      curSec = "0" + curSec.toString()
+      curSec = "0" + curSec.toString();
     }
-    // console.log(`${curMin} : ${curSec}`)
-    return { curMin, curSec }
+    return { curMin, curSec };
   }
 
   // return the selected time in minutes and return in second
-  convSelTimeToRemTime = (selTime) => {
-    return selTime * 60;
-  }
+  convSelTimeToRemTime = (selTime) => (selTime * 60);
 
-  // button
+
+  // button for start pause
   handleStartBtn = () => {
+    // toggle between start and pause
     this.setState({
       timerStarted: !this.state.timerStarted
     })
+    // if timer has not been started, run the timer with interval
     if (!this.state.timerStarted) {
       this.countDownTimer = setInterval(this.countDown, 1000)
     }
+    // pause if timer has been started
     if (this.state.timerStarted) {
-      // console.log("clearing interval")
       clearInterval(this.countDownTimer)
     }
   }
 
   handleResetBtn = () => {
+    this.resetAll()
+  }
+
+  // hard reset everything
+  resetAll = () => {
+    clearInterval(this.countDownTimer)
     this.setState({
+      timeIsUp: false,
       timeRemaining: 1500,
       timerStarted: false,
-      // using
+      objective: "",
+      note: "",
       hour: "00",
       minute: "25",
       second: "00",
-
+      chooseCompleted: true,
+      chooseRating: 100,
+      showSaveBtn: false
     })
-    if (this.countDownTimer) {
-      clearInterval(this.countDownTimer)
-    }
   }
 
   countDown = () => {
-
-    // console.log("countdown running")
-    // console.log(this.state.timeRemaining)
     let displayRemTime = this.convRemTimeToDisplay(this.state.timeRemaining);
 
+    // time is not up
     if (this.state.timeRemaining >= 0) {
       this.setState({
         timeRemaining: this.state.timeRemaining - 1,
         minute: displayRemTime.curMin,
         second: displayRemTime.curSec
       })
-
+    } else {
+      // time is up
+      new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3').play();
+      this.setState({
+        timeIsUp: true,
+        showSaveBtn: true
+      })
+      clearInterval(this.countDownTimer)
     }
   }
 
   handleChange = event => {
-    this.handleResetBtn()
     if (event.target.name === 'chooseTime') {
+      this.handleResetBtn()
       let remTime = this.convSelTimeToRemTime(event.target.value);
       let displayRemTime = this.convRemTimeToDisplay(remTime);
-      console.log(remTime)
       this.setState({
         timeRemaining: remTime,
         minute: displayRemTime.curMin,
@@ -136,16 +156,23 @@ class Pomodoro extends React.Component {
     });
   };
 
-  handleTest = () => {
-    const testObj = {
-      objective: "from test",
-      timer: "25",
-      completed: true,
-      rating: 10,
-      note: "work"
+  handleTextChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  saveTask = () => {
+    const completedTask = {
+      objective: this.state.objective,
+      timer: this.state.chooseTime,
+      completed: this.state.chooseCompleted,
+      rating: this.state.chooseRating,
+      note: this.state.note,
+      googleId: this.props.googleId
     }
-    this.props.onAddTask(testObj)
-    console.log("called addTask from pomodoro")
+    this.props.onAddTask(completedTask)
+    this.resetAll()
   }
 
 
@@ -154,11 +181,14 @@ class Pomodoro extends React.Component {
     return (
       <React.Fragment>
         {/* ROOT - overall */}
-        < Grid className={classes.root} container spacing={24} align="center" >
+        < Grid className={classes.root} container spacing={8} align="center" >
           {/* CHILD - Label */}
-          < Typography variant="h6" gutterBottom align="center"  >
-            TIMER
+          <Grid item xs={12} >
+            < Typography variant="h6" gutterBottom align="center"  >
+              TIMER
           </Typography >
+          </Grid>
+
           {/* CHILD - time display */}
           <Grid item xs={12} >
             < Typography variant="h2" gutterBottom align="center" >
@@ -192,22 +222,72 @@ class Pomodoro extends React.Component {
             <TextField
               name="objective"
               label="Objective"
+              value={this.state.objective}
+              onChange={this.handleTextChange}
               autoFocus
               rowsMax={2}
               style={{ width: "70%" }}
               multiline
             />
           </Grid>
-
+          {/* CHILD - note field */}
           <Grid item xs={12}>
             <TextField
               name="note"
               placeholder="note"
+              value={this.state.note}
+              onChange={this.handleTextChange}
               multiline
               fullWidth
               rowsMax={5}
             />
           </Grid>
+          {/* CHILD - completed field */}
+          <Grid item xs={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="show-default">Completed?</InputLabel>
+              <Select
+                value={this.state.chooseCompleted}
+                onChange={this.handleChange}
+                input={<Input name="chooseCompleted" />}
+              >
+                <MenuItem value={true} defaultValue>YES</MenuItem>
+                <MenuItem value={false}>NO</MenuItem>
+              </Select>
+              <FormHelperText>Be true to yourself</FormHelperText>
+            </FormControl>
+          </Grid>
+          {/* CHILD - rating field */}
+          <Grid item xs={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="show-default">Grade yourself</InputLabel>
+              <Select
+                value={this.state.chooseRating}
+                onChange={this.handleChange}
+                input={<Input name="chooseRating" />}
+              >
+                <MenuItem value={0}>0</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={20}>20</MenuItem>
+                <MenuItem value={30}>30</MenuItem>
+                <MenuItem value={40}>40</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+                <MenuItem value={60}>60</MenuItem>
+                <MenuItem value={70}>70</MenuItem>
+                <MenuItem value={80}>80</MenuItem>
+                <MenuItem value={90}>90</MenuItem>
+                <MenuItem value={100} defaultValue>100</MenuItem>
+              </Select>
+              <FormHelperText>You know you 100</FormHelperText>
+            </FormControl>
+          </Grid>
+          {/* CHILD - save and send to server */}
+          {(this.props.isLoggedIn && this.state.timeIsUp && this.state.showSaveBtn) &&
+            <Grid item xs={12}>
+              <Button variant="contained" color="primary" onClick={this.saveTask}>
+                save
+          </Button>
+            </Grid>}
 
           {/* CHILD - time selector */}
           {!this.state.timerStarted &&
@@ -219,10 +299,10 @@ class Pomodoro extends React.Component {
                   onChange={this.handleChange}
                   input={<Input name="chooseTime" />}
                 >
-                  <MenuItem value={1}>1 min</MenuItem>
+                  <MenuItem value={1 / 60}>1 sec(for testing)</MenuItem>
+                  <MenuItem value={3}>3 min</MenuItem>
                   <MenuItem value={5}>5 min</MenuItem>
                   <MenuItem value={25}>25 min</MenuItem>
-                  <MenuItem value={45}>45 min</MenuItem>
                 </Select>
                 <FormHelperText>Selecting a time will restart</FormHelperText>
               </FormControl>
@@ -230,9 +310,7 @@ class Pomodoro extends React.Component {
           }
 
 
-          {/* <Button variant="contained" color="primary" onClick={this.handleTest}>
-            TEST BTN
-          </Button> */}
+
         </Grid >
       </React.Fragment >
     );
@@ -244,7 +322,8 @@ Pomodoro.propTypes = {
 };
 
 const mapStateToProps = state => ({
-
+  isLoggedIn: state.ui.loggedIn,
+  googleId: state.ui.curUser.googleId
 });
 
 const mapActionsToProps = {

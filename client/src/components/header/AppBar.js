@@ -62,8 +62,7 @@ class ButtonAppBar extends React.Component {
             <Typography variant="h6" color="inherit" style={styles.grow}>
               Pomodoro Timer
           </Typography>
-            <Button color="inherit" onClick={this.handleLogin}>{this.props.state.ui.loggedIn ? "Account" : "Sign in"}</Button>
-            {/* <Button color="inherit" >Login</Button> */}
+            <Button color="inherit" onClick={this.handleLogin}>{this.props.isLoggedIn ? "Account" : "Sign in"}</Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -81,8 +80,7 @@ class ButtonAppBar extends React.Component {
 
 
 const mapStateToProps = state => ({
-  state: state
-
+  isLoggedIn: state.ui.loggedIn
 });
 
 const mapActionsToProps = {

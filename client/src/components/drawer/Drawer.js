@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 
 class TemporaryDrawer extends React.Component {
 
-
   handleListClick = (e) => {
     switch (e) {
       case 'Timer':
@@ -82,12 +81,9 @@ class TemporaryDrawer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-});
-
 const mapActionsToProps = {
   onSwitchMain: switchMain,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(TemporaryDrawer);
+export default connect(null, mapActionsToProps)(TemporaryDrawer);
 

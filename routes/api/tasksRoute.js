@@ -6,7 +6,7 @@ const Task = require('../../models/Task');
 // @desc   GET all tasks
 // @access Public
 router.get('/:googleId', (req, res) => {
-  Task.find({ googleId: req.params.googleId })
+  Task.find({ googleId: req.params.googleId, timer: "25" })
     .sort({ date: -1 })
     .then(tasks => res.json(tasks))
 })
@@ -15,6 +15,8 @@ router.get('/:googleId', (req, res) => {
 // @desc   post a task
 // @access Public
 router.post('/', (req, res) => {
+  console.log("saving")
+  console.log(req.body)
   // new Task object to save
   const newTask = new Task({
     objective: req.body.objective,

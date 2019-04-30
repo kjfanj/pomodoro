@@ -9,15 +9,16 @@ export const switchMain = whichMain => (dispatch) => {
   })
 }
 
-export const signIn = userId => (dispatch) => {
+// take in googleId then update the current user
+export const signIn = googleId => (dispatch) => {
   axios
-    .post('/auth/signIn', userId)
+    .post('/auth/signIn', googleId)
     .then(res => {
       // if status is OK, then the user will be added to the db
       if (res.status === 200) {
         dispatch({
           type: SIGN_IN,
-          payload: userId
+          payload: googleId
         })
       }
     })
