@@ -6,7 +6,7 @@ const Task = require('../../models/Task');
 // @desc   GET all tasks
 // @access Public
 router.get('/:googleId', (req, res) => {
-  Task.find({ googleId: req.params.googleId, timer: "25" })
+  Task.find({ googleId: req.params.googleId })
     .sort({ date: -1 })
     .then(tasks => res.json(tasks))
 })

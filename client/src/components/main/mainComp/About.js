@@ -20,13 +20,10 @@ export default class About extends Component {
           Current constraints
         </Typography>
         <Typography>
-          - You cannot switch to another page while the timer is running because JS is single threaded
+          - You cannot switch to another page while the timer is running because JS is single threaded, but you probably should focus anyways.
         </Typography>
         <Typography>
           - You need to sign in to view what tasks you have completed
-        </Typography>
-        <Typography>
-          - The default history only shows tasks with 25 minute ran
         </Typography>
         <Typography>
           - You need to sign in to be able to save tasks in db

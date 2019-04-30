@@ -8,6 +8,12 @@ import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
 // imports for redux
 import { connect } from 'react-redux';
@@ -37,30 +43,79 @@ const styles = theme => ({
     flexGrow: 1,
   },
 });
+
 class History extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      chooseDate: true,
+      chooseDuration: true
+    }
+  }
+
+
   componentDidMount() {
     if (this.props.isLoggedIn) {
       this.props.onGetCompletedTask(this.props.user.curUser.googleId)
     }
   }
-  componentDidUpdate() {
+
+  isToday = (someDate) => {
+    const today = new Date()
+    return
+    // eslint-disable-next-line
+    someDate.getDate() == today.getDate() &&
+      // eslint-disable-next-line
+      someDate.getMonth() == today.getMonth() &&
+      // eslint-disable-next-line
+      someDate.getFullYear() == today.getFullYear()
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  refresh = () => {
     if (this.props.isLoggedIn) {
+      console.log("request")
       this.props.onGetCompletedTask(this.props.user.curUser.googleId)
     }
   }
 
-  handleDoubleClick = () => {
-    // maybe implement delete
-    // console.log("clickclick")
-  }
-
   render() {
-    // console.log(this.props.displayTasks)
     const { classes } = this.props;
-    const completedTaskToDisplay = this.props.displayTasks.map((task, index) => (
 
+    // chain reducing based on filter
+    const dateFilter = this.props.displayTasks.reduce((filtered, option) => {
+      if (this.state.chooseDate) {
+        if (this.isToday(new Date(option.date))) {
+          filtered.push(option);
+        }
+      } else {
+        filtered.push(option)
+      }
+      return filtered
+    }, []);
+
+    const durationFilter = dateFilter.reduce((filtered, option) => {
+      if (this.state.chooseDuration) {
+        // eslint-disable-next-line
+        if (option.timer == "25") {
+          filtered.push(option)
+        }
+      } else {
+        filtered.push(option)
+      }
+
+      return filtered
+    }, []);
+
+    const completedTaskToDisplay = durationFilter.map((task, index) => (
       <Grid item key={task._id} sm={12} md={12} lg={12} style={{ width: '100%' }}>
-        <Card className={classes.card} onDoubleClick={this.handleDoubleClick}>
+        <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             <Typography>
               {"Task " + (index + 1) + ": " + task.objective}
@@ -73,7 +128,7 @@ class History extends React.Component {
               {"rating: " + task.rating}
             </Typography >
             <Typography align="center">
-              {task.timer + " m"}
+              {Math.floor(task.timer) + " m"}
             </Typography>
             <Typography align="center">
               {"completion date: " + new Date(task.date)}
@@ -87,18 +142,55 @@ class History extends React.Component {
         </Card>
       </Grid>
     ))
+
+
+    // console.log(reducedFilter)
     return (
 
       <div className={classNames(classes.layout, classes.cardGrid)}>
+        <Grid container spacing={8} align="center">
+          <Grid item xs={4} >
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="show-default">Date</InputLabel>
+              <Select
+                value={this.state.chooseDate}
+                onChange={this.handleChange}
+                input={<Input name="chooseDate" />}
+              >
+                <MenuItem value={false}>Show all</MenuItem>
+                <MenuItem value={true}>Today only</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4} >
+            {this.props.isLoggedIn &&
+              <Button variant="contained" color="primary" onClick={this.refresh}>
+                refresh
+            </Button>
+            }
+          </Grid>
+          <Grid item xs={4} >
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="show-default">Duration</InputLabel>
+              <Select
+                value={this.state.chooseDuration}
+                onChange={this.handleChange}
+                input={<Input name="chooseDuration" />}
+              >
+                <MenuItem value={false}>All</MenuItem>
+                <MenuItem value={true}>25 min</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
-          {this.props.isLoggedIn ? "Total Completed: " + this.props.displayTasks.length : "Please sign in to see your history"}
+          {this.props.isLoggedIn ? "Total Completed: " + durationFilter.length : "Please sign in to see your history"}
         </Typography>
         <Grid container spacing={24}>
           {this.props.isLoggedIn ? completedTaskToDisplay : ""}
         </Grid>
       </div >
     );
-
   }
 }
 
