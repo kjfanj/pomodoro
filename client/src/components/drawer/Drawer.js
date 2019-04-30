@@ -34,7 +34,6 @@ class TemporaryDrawer extends React.Component {
     }
   }
 
-
   render() {
     const styles = {
       list: {

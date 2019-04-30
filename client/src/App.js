@@ -3,7 +3,6 @@ import Overall from './components/layouts/Overall';
 
 class App extends Component {
 
-
   render() {
     return (
       <div style={{ overflow: "hidden" }}>

@@ -3,6 +3,7 @@
 // taskAction - For timer 
 export const ADD_COMPLETED_TASK = 'ADD_COMPLETED_TASK';
 export const GET_COMPLETED_TASK = 'GET_COMPLETED_TASK';
+
 // uiAction - For drawer menu UI
 export const SWITCH_MAIN = 'SWITCH_MAIN';
 

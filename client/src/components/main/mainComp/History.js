@@ -49,6 +49,10 @@ class History extends React.Component {
     }
   }
 
+  handleDoubleClick = () => {
+    // maybe implement delete
+    // console.log("clickclick")
+  }
 
   render() {
     // console.log(this.props.displayTasks)
@@ -56,7 +60,7 @@ class History extends React.Component {
     const completedTaskToDisplay = this.props.displayTasks.map((task, index) => (
 
       <Grid item key={task._id} sm={12} md={12} lg={12} style={{ width: '100%' }}>
-        <Card className={classes.card}>
+        <Card className={classes.card} onDoubleClick={this.handleDoubleClick}>
           <CardContent className={classes.cardContent}>
             <Typography>
               {"Task " + (index + 1) + ": " + task.objective}

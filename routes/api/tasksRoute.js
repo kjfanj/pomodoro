@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const Task = require('../../models/Task');
 
-// @route  GET api/tasks
+// @route  GET api/tasks/:googleId
 // @desc   GET all tasks
 // @access Public
 router.get('/:googleId', (req, res) => {
@@ -15,8 +15,6 @@ router.get('/:googleId', (req, res) => {
 // @desc   post a task
 // @access Public
 router.post('/', (req, res) => {
-  console.log("saving")
-  console.log(req.body)
   // new Task object to save
   const newTask = new Task({
     objective: req.body.objective,
@@ -29,18 +27,5 @@ router.post('/', (req, res) => {
 
   newTask.save().then(task => res.json(task));
 })
-
-// @route  DELETE api/tasks/:id
-// @desc   delete a task
-// @access Public
-router.delete('/:id', (req, res) => {
-  Task.findById(req.params.id)
-    .then(task => task.remove().then(() => res.json({ success: true })))
-    .catch(() => res.status(404).json({ success: false }))
-})
-
-
-
-
 
 module.exports = router;
