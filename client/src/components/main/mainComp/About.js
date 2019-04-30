@@ -17,7 +17,7 @@ export default class About extends Component {
         <Button><a href={"https://github.com/kjfanj/pomodoro"}>GITHUB</a></Button>
         </Typography>
         <Typography variant="h6" gutterBottom>
-          Currently functionalities
+          Currently constraints
         </Typography>
         <Typography>
           - You need to sign in to view what tasks you have completed
