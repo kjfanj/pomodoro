@@ -17,7 +17,10 @@ export default class About extends Component {
         <Button><a href={"https://github.com/kjfanj/pomodoro"}>GITHUB</a></Button>
         </Typography>
         <Typography variant="h6" gutterBottom>
-          Currently constraints
+          Current constraints
+        </Typography>
+        <Typography>
+          - You cannot switch to another page while the timer is running because JS is single threaded
         </Typography>
         <Typography>
           - You need to sign in to view what tasks you have completed
@@ -29,13 +32,19 @@ export default class About extends Component {
           - You need to sign in to be able to save tasks in db
         </Typography>
         <Typography>
-          - You cannot switch to another page while the timer is running because JS is single threaded
-        </Typography>
-        <Typography>
           - You have to sign in everytime you refresh the page
         </Typography>
         <Typography variant="h6" gutterBottom>
           Maybe in future
+        </Typography>
+        <Typography>
+          - Use cookie to sign in instead of having to click login everytime
+        </Typography>
+        <Typography>
+          - different pomodoro session type for you to customize and use
+        </Typography>
+        <Typography>
+          - More filter in History or maybe visualize your history
         </Typography>
         <Typography>
           - Add web worker to allow you to switch page/tab
@@ -46,20 +55,11 @@ export default class About extends Component {
         <Typography>
           - Allow custom time
         </Typography>
-        <Typography>
-          - Use cookie to sign in instead of having to click login everytime
-        </Typography>
-        <Typography>
-          - More filter in History or maybe visualize your history
-        </Typography>
-        <Typography>
-          - different pomodoro session type for you to customize and use
-        </Typography>
         <Typography variant="h6" gutterBottom>
           Question?
         </Typography>
         <Typography>
-          - send email at tomatotimerapp@gmail.com
+          - email me at tomatotimerapp@gmail.com
         </Typography>
 
       </div>
