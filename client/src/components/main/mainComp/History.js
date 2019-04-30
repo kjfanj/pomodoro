@@ -63,13 +63,9 @@ class History extends React.Component {
 
   isToday = (someDate) => {
     const today = new Date()
-    return
-    // eslint-disable-next-line
-    someDate.getDate() == today.getDate() &&
-      // eslint-disable-next-line
-      someDate.getMonth() == today.getMonth() &&
-      // eslint-disable-next-line
-      someDate.getFullYear() == today.getFullYear()
+    return someDate.getDate() === today.getDate() &&
+      someDate.getMonth() === today.getMonth() &&
+      someDate.getFullYear() === today.getFullYear()
   }
 
   handleChange = (e) => {
@@ -102,8 +98,7 @@ class History extends React.Component {
 
     const durationFilter = dateFilter.reduce((filtered, option) => {
       if (this.state.chooseDuration) {
-        // eslint-disable-next-line
-        if (option.timer == "25") {
+        if (option.timer === 25) {
           filtered.push(option)
         }
       } else {
